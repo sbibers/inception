@@ -174,6 +174,7 @@ make clean
 
 * [Docker Overview](https://www.docker.com/resources/what-container/)
 * [Dockerfile Docs](https://docs.docker.com/engine/reference/builder/)
+* [Docker Compose File Reference .yaml](https://docs.docker.com/compose/compose-file/)
 * [Docker Volumes](https://docs.docker.com/storage/volumes/)
 * [Docker Networking](https://docs.docker.com/network/)
 * [WordPress](https://wordpress.org/about/)
