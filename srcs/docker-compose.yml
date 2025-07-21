@@ -1,0 +1,70 @@
+services:
+  mariadb:
+    build: requirements/mariadb
+    container_name: mariadb
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - mariadb:/var/lib/mysql
+    networks:
+      - inception_network
+
+  wordpress:
+    build: requirements/wordpress
+    container_name: wordpress
+    depends_on:
+      - mariadb
+    restart: unless-stopped
+    environment:
+      DOMAIN_NAME: ${DOMAIN_NAME}
+      WP_DATABASE_NAME: ${WP_DATABASE_NAME}
+      WP_ADMIN: ${WP_ADMIN}
+      WP_ADMIN_PASSWORD: ${WP_ADMIN_PASSWORD}
+      WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
+      WP_USER: ${WP_USER}
+      WP_USER_PASSWORD: ${WP_USER_PASSWORD}
+      WP_USER_EMAIL: ${WP_USER_EMAIL}
+    env_file:
+      - .env
+    volumes:
+      - wordpress:/var/www/html
+    networks:
+      - inception_network
+
+  nginx:
+    build: requirements/nginx
+    container_name: nginx
+    depends_on:
+      - wordpress
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "443:443"
+    volumes:
+      - wordpress:/var/www/html
+    networks:
+      - inception_network
+
+networks:
+  inception_network:
+    name: inception_network
+    driver: bridge
+
+volumes:
+  mariadb:
+    name: mariadb_volume
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/sbibers/data/mariadb
+
+  wordpress:
+    name: wordpress_volume
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/sbibers/data/wordpress
