@@ -168,7 +168,7 @@ Ensure you have the following installed on your system:
 
 1. **Clone the Repository**:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/sbibers/inception.git
    cd inception
    ```
 
